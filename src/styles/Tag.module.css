@@ -1,0 +1,43 @@
+* {
+  --keyColor: white;
+  --tagBorderColor: lightgrey;
+  --textColor: black;
+}
+
+.blue {
+  --keyColor: dodgerblue;
+  --textColor: white;
+}
+
+.red {
+  --keyColor: red;
+  --textColor: white;
+}
+
+.green {
+  --keyColor: rgb(0, 186, 0);
+  --textColor: white;
+}
+
+.purple {
+  --keyColor: rebeccapurple;
+  --textColor: white;
+}
+
+.tag {
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px;
+  border-style: solid;
+  border-color: var(--tagBorderColor);
+  background-color: var(--keyColor);
+  color: var(--textColor);
+  font-size: .8em;
+}
+
+.ghost {
+  background-color: transparent;
+  border-color: var(--keyColor);
+  color: var(--keyColor);
+}

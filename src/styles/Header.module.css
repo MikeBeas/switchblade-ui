@@ -1,0 +1,11 @@
+.header {
+  position: sticky;
+  top: 0;
+  background-color: var(--elementBackgroundColor);
+  border-bottom: var(--border);
+  padding: 24px;
+}
+
+.headerContent {
+  font-size: 24px;
+}

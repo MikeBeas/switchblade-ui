@@ -1,0 +1,53 @@
+.label {
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  transition: var(--animationDuration);
+  margin: 10px 0;
+}
+
+.label::before {
+  content: '';
+  position: relative;
+  display: inline-block;
+  background: white;
+  border: var(--border);
+  cursor: pointer;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  transition: background-color var(--animationDuration) cubic-bezier(.4, .0, .23, 1);
+}
+
+.checkbox:active+.label::before:not(:disabled) {
+  background-color: rgb(20, 124, 245);
+  border-color: rgb(20, 124, 245);
+}
+
+.checkbox:disabled+.label {
+  color: lightgrey;
+  cursor: default;
+}
+
+.checkbox:checked+.label::before {
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCEtLSBHZW5lcmF0ZWQgYnkgUGl4ZWxtYXRvciBQcm8gMy4zLjIgLS0+Cjxzdmcgd2lkdGg9IjEwMjQiIGhlaWdodD0iMTAyNCIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8ZyBpZD0iSWNvbiI+CiAgICAgICAgPHBhdGggaWQ9IlVwUmlnaHQiIGZpbGw9IiNmZmZmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSJub25lIiBkPSJNIDI5Ny4zMDYxODMgNzExLjk4NjY5NCBDIDI2Ny4wNzc0NTQgNzQyLjIxNTQ1NCAyNjcuMDc3NDU0IDc5MS4yMjU4OTEgMjk3LjMwNjE4MyA4MjEuNDU0NjUxIEwgMzI0LjQ3NzkwNSA4NDguNjI2MzQzIEMgMzU0LjcwNjYzNSA4NzguODU1MTAzIDQwMy43MTcxMzMgODc4Ljg1NTEwMyA0MzMuOTQ1ODYyIDg0OC42MjYzNDMgTCA5NjkuMjY2MDUyIDMxMy4zMDYyMTMgQyA5OTkuNDk0NzUxIDI4My4wNzc0NTQgOTk5LjQ5NDc1MSAyMzQuMDY2OTU2IDk2OS4yNjYwNTIgMjAzLjgzODI1NyBMIDk0Mi4wOTQyOTkgMTc2LjY2NjUwNCBDIDkxMS44NjU2MDEgMTQ2LjQzNzgwNSA4NjIuODU1MTAzIDE0Ni40Mzc4MDUgODMyLjYyNjM0MyAxNzYuNjY2NTA0IFoiLz4KICAgICAgICA8cGF0aCBpZD0iRG93bkxlZnQiIGZpbGw9IiNmZmZmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSJub25lIiBkPSJNIDMyMi45MTA4ODkgODQ2LjQ2NDQ3OCBDIDM1My4xMzk2NDggODc2LjY5MzIzNyA0MDIuMTUwMTE2IDg3Ni42OTMyMzcgNDMyLjM3ODg0NSA4NDYuNDY0NDc4IEwgNDU5LjU1MDU2OCA4MTkuMjkyNzg2IEMgNDg5Ljc3OTI5NyA3ODkuMDY0MDg3IDQ4OS43NzkyOTcgNzQwLjA1MzU4OSA0NTkuNTUwNTY4IDcwOS44MjQ4MjkgTCAxOTEuNjY2NTM0IDQ0MS45NDA3OTYgQyAxNjEuNDM3NzkgNDExLjcxMjAzNiAxMTIuNDI3MzE1IDQxMS43MTIwMzYgODIuMTk4NTcgNDQxLjk0MDc5NiBMIDU1LjAyNjg1OSA0NjkuMTEyNDg4IEMgMjQuNzk4MTIgNDk5LjM0MTI0OCAyNC43OTgxMiA1NDguMzUxNjg1IDU1LjAyNjg3MSA1NzguNTgwNDQ0IFoiLz4KICAgIDwvZz4KPC9zdmc+Cg==);
+
+  background-size: 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  background-color: dodgerblue;
+  border-color: dodgerblue;
+}
+
+.checkbox {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+}

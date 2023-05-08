@@ -1,0 +1,26 @@
+.stack {
+  display: flex;
+}
+
+.horizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+.vertical {
+  flex-direction: column;
+  align-items: center;
+}
+
+.center {
+  justify-content: center;
+  text-align: center;
+}
+
+.blockVertical {
+  height: 100%;
+}
+
+.blockHorizontal {
+  width: 100%;
+}

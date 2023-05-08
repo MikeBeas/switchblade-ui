@@ -1,0 +1,36 @@
+.tableContainer {
+  padding: 10px 0;
+}
+
+.table {
+  width: 100%;
+  border-radius: var(--borderRadius);
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tr {
+  background-color: var(--elementBackgroundColor);
+}
+
+.th {
+  background-color: rgb(230, 230, 230);
+  text-align: left;
+  padding: 15px;
+  border: 0;
+
+  border-bottom: var(--border);
+
+  &:first-of-type {
+    border-top-left-radius: 5px;
+  }
+
+  &:last-of-type {
+    border-top-right-radius: 5px;
+  }
+}
+
+.td {
+  padding: 15px;
+  border-bottom: var(--border);
+}

@@ -1,0 +1,11 @@
+.secret {
+  color: black;
+  background-color: black;
+  border-radius: 5px;
+  width: 100%;
+  text-align: center;
+
+  &:hover {
+    background-color: transparent;
+  }
+}

@@ -1,0 +1,36 @@
+.input {
+  border-radius: var(--borderRadius);
+  font-size: 16px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  background-color: var(--elementBackgroundColor);
+  border: var(--border);
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:disabled {
+    cursor: default;
+    background-color: var(--backgroundColor);
+    border-color: lightgrey;
+  }
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.block {
+  width: 100%;
+}
+
+.default {
+  font-size: 16px;
+  padding: 5px 10px;
+}
+
+.large {
+  font-size: 20px;
+  padding: 10px 15px;
+}

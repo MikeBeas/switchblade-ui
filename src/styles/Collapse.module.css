@@ -1,0 +1,35 @@
+.collapse {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: var(--borderRadius);
+  border: var(--border);
+  background-color: rgb(239, 239, 239);
+  cursor: pointer;
+}
+
+
+.collapseHeader {
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collapseBody {
+  font-weight: 500;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px rgb(172, 172, 172) solid;
+  cursor: default;
+}
+
+.icon {
+  transform: rotate(0);
+  transition: var(--animationDuration);
+}
+
+.flip {
+  transform: rotate(.25turn);
+  transition: var(--animationDuration);
+}

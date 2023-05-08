@@ -1,0 +1,112 @@
+.button {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: var(--borderRadius);
+  box-sizing: border-box;
+
+  transition: background-color var(--animationDuration);
+  color: black;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+    background-color: lightgrey;
+    border-color: lightgrey;
+    color: grey;
+  }
+
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.block {
+  width: 100%;
+}
+
+.default {
+  font-size: 16px;
+  padding: 5px 20px;
+}
+
+.large {
+  font-size: 20px;
+  padding: 10px 20px;
+}
+
+.white {
+  border-color: lightgrey;
+  background-color: var(--elementBackgroundColor);
+
+  &:hover:not(:disabled) {
+    --color: rgb(240, 240, 240);
+    background-color: var(--color);
+  }
+
+  &:active:not(:disabled) {
+    --color: rgb(230, 230, 230);
+    background-color: var(--color);
+  }
+}
+
+.blue {
+  --color: dodgerblue;
+  background-color: var(--color);
+  border-color: var(--color);
+  color: white;
+
+  &:hover:not(:disabled) {
+    --color: rgb(20, 134, 245);
+    background-color: var(--color);
+    border-color: var(--color);
+  }
+
+  &:active:not(:disabled) {
+    --color: rgb(10, 124, 235);
+  }
+}
+
+.red {
+  --color: red;
+  background-color: var(--color);
+  border-color: var(--color);
+  color: white;
+
+  &:hover:not(:disabled) {
+    --color: rgb(240, 0, 0);
+  }
+
+  &:active:not(:disabled) {
+    --color: rgb(230, 0, 0);
+  }
+}
+
+.green {
+  --color: rgb(29, 201, 52);
+  background-color: var(--color);
+  border-color: var(--color);
+  color: white;
+
+  &:hover:not(:disabled) {
+    --color: rgb(29, 186, 52);
+  }
+
+  &:active:not(:disabled) {
+    --color: rgb(29, 176, 52);
+  }
+}
+
+.ghost {
+  border-color: var(--color);
+  background-color: transparent;
+  color: var(--color);
+
+  &:hover:not(:disabled) {
+    background-color: transparent;
+    color: var(--color)
+  }
+
+  &:active:not(:disabled) {
+    background-color: transparent;
+    color: var(--color)
+  }
+}

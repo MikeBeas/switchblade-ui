@@ -1,0 +1,51 @@
+.alert {
+  border-radius: var(--borderRadius);
+  box-sizing: border-box;
+  min-height: 30px;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.centered {
+  text-align: center;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.content {
+  font-size: 14px;
+}
+
+.white {
+  background-color: var(--elementBackgroundColor);
+  border-color: lightgrey;
+}
+
+.blue {
+  background-color: rgb(224, 239, 255);
+  border-color: dodgerblue;
+}
+
+.red {
+  background-color: rgb(255, 196, 196);
+  border-color: red;
+}
+
+.yellow {
+  background-color: rgb(251, 251, 218);
+  border-color: gold;
+}
+
+.green {
+  background-color: rgb(225, 255, 225);
+  border-color: lime;
+}

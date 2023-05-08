@@ -1,0 +1,123 @@
+* {
+  --animation-duration: .3s;
+  --borderRadius: 5px;
+}
+
+.drawerBackground {
+  z-index: 99999999999999999999;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  transition: background-color var(--animation-duration);
+  pointer-events: none;
+}
+
+.drawerBackgroundOpen {
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  pointer-events: unset;
+}
+
+.drawerBody {
+  cursor: default;
+  background-color: var(--elementBackgroundColor);
+  color: black;
+  border: 1px transparent solid;
+  max-width: 100%;
+  padding: 20px 20px 0 20px;
+  box-sizing: border-box;
+  height: 100%;
+  margin: auto;
+  transform: translate(100%) scale(0.9);
+  transition: var(--animation-duration);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 16px;
+  text-align: left;
+  position: absolute;
+  right: 0;
+  border-radius: var(--borderRadius) 0 0 var(--borderRadius);
+}
+
+.left {
+  left: 0;
+  transform: translate(-100%) scale(0.9);
+  right: initial !important;
+  border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
+}
+
+.bottom {
+  bottom: 0;
+  transform: translate(0, 100%) scale(0.9);
+  right: initial !important;
+  width: 100%;
+  max-width: 100%;
+  border-radius: var(--borderRadius) var(--borderRadius) 0 0;
+}
+
+.top {
+  top: 0;
+  transform: translate(0, -100%) scale(0.9);
+  right: initial !important;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0 0 var(--borderRadius) var(--borderRadius);
+}
+
+.drawerBody:not(.rounded) {
+  border-radius: 0;
+}
+
+.drawerBodyOpen {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.headerWrapper {
+  font-size: 18px;
+  font-weight: 700;
+  padding-bottom: 10px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content {
+  padding: 20px 0;
+  overflow: scroll;
+  line-break: loose;
+  flex-grow: 1;
+}
+
+.footerWrapper {
+  margin-bottom: 15px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.footerItem:first-of-type {
+  margin-left: 0;
+}
+
+.closeButton {
+  color: lightgrey;
+  cursor: pointer;
+}

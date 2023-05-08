@@ -1,0 +1,35 @@
+.card {
+  background-color: var(--elementBackgroundColor);
+  padding: 20px;
+  border-radius: var(--borderRadius);
+  border: var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: 900;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: var(--border);
+}
+
+.content {
+  flex-grow: 1;
+}
+
+.footer {
+  padding-top: 15px;
+  margin-top: 15px;
+  border-top: var(--border);
+}
+
+.clickable {
+  cursor: pointer;
+  transition: .3s;
+
+  &:hover {
+    box-shadow: 0 0 10px lightgrey;
+  }
+}

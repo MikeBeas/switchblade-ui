@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "components/*": [
+        "./src/components/*"
+      ],
+      "constants/*": [
+        "./src/constants/*"
+      ],
+      "icons/*": [
+        "./src/icons/*"
+      ],
+      "lib/*": [
+        "./src/lib/*"
+      ],
+      "pages/*": [
+        "./src/pages/*"
+      ],
+      "router/*": [
+        "./src/router/*"
+      ],
+      "state/*": [
+        "./src/state/*"
+      ],
+      "styles/*": [
+        "./src/styles/*"
+      ]
+    }
+  }
+}
