@@ -32,6 +32,6 @@ export default defineConfig({
   },
   plugins: [react(), svgr(), pluginRewriteAll()],
   optimizeDeps: {
-    exclude: ['@mikebeas/switchblade-sdk']
+    exclude: ['switchblade-sdk']
   }
 })

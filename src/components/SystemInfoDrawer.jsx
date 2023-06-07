@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectShowSystemInfoDrawer, setShowSystemInfoDrawer } from 'state/app';
 import { selectServerConfig } from 'state/server';
 
-import { sdk } from '@mikebeas/switchblade-sdk';
+import { sdk } from 'switchblade-sdk';
 import self from '../../package.json';
 
 import Stack from 'components/Stack';
