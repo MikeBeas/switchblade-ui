@@ -13,7 +13,7 @@ const initialState = {
   tokenExpired: false
 }
 
-export const auth = createSlice({
+const auth = createSlice({
   name: 'auth',
   initialState,
   reducers: {

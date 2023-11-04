@@ -76,3 +76,18 @@
     opacity: 1;
   }
 }
+
+.dropdown {
+  animation-name: dropdownAnimation;
+  animation-duration: var(--animationDuration);
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes dropdownAnimation {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+}

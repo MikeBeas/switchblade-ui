@@ -8,15 +8,21 @@ const initialState = {
   api: {
     host: null,
     production: false,
-    authenticated: false
+    authenticated: false,
+    user: {
+      id: null,
+      username: null,
+      permissions: {}
+    }
   },
   switchblade: {
     version: null
   },
-  features: []
+  features: [],
+  permissions: {}
 }
 
-export const server = createSlice({
+const server = createSlice({
   name: 'server',
   initialState,
   reducers: {
@@ -33,6 +39,8 @@ export const server = createSlice({
 export const { setServerConfig, setServerError, resetServerConfig, setServerConfigLoading } = server.actions;
 
 export const selectServerConfig = (state) => state.server;
+export const selectCurrentUser = (state) => state.server.api.user;
+export const selectPermissions = (state) => state.server.permissions;
 
 export const loadServerConfig = () => async (dispatch) => {
   if (!switchblade.hasHost()) return;

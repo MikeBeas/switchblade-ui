@@ -39,20 +39,24 @@ const SetupDrawer = () => {
     if (username.trim() !== "") body.username = username;
     if (password.trim() !== "") body.password = password;
 
-    const response = await switchblade.setup.setup({
-      username,
-      password
-    })
+    try {
+      await switchblade.setup.setup({
+        username,
+        password
+      })
 
-    if (response.success) {
       setUsername('');
       setPassword('');
+      dispatch(setShowSetupDrawer(false));
+    } catch (e) {
+      setMessage(e.message);
+      setError(true);
+    } finally {
+      setLoading(false);
     }
-
-    setMessage(response.message);
-    setError(!response.success);
-    setLoading(false);
   }
+
+  const tabIndex = showSetupDrawer ? undefined : -1;
 
   return (
     <Drawer
@@ -85,6 +89,7 @@ const SetupDrawer = () => {
           <Input
             id="u"
             block
+            tabIndex={tabIndex}
             size={Input.Sizes.Large}
             disabled={loading}
             placeholder="Username"
@@ -97,9 +102,10 @@ const SetupDrawer = () => {
           <Input
             id="p"
             block
+            tabIndex={tabIndex}
             size={Input.Sizes.Large}
             disabled={loading}
-            placeholder="Change Password"
+            placeholder="Set Password"
             autoComplete="new-password"
             name="p"
             value={password}
@@ -109,6 +115,7 @@ const SetupDrawer = () => {
 
           <Button
             block
+            tabIndex={tabIndex}
             key="save"
             disabled={loading}
             size={Button.Sizes.Large}

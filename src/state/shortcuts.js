@@ -14,12 +14,18 @@ const initialState = {
   filters: {
     state: SHORTCUT_STATE_ALL,
     deleted: DELETED_STATE_NO,
-    search: ''
+    search: '',
+    creatorId: null
   },
-  searchTerm: ''
+  searchTerm: '',
+  creator: {
+    options: [],
+    loading: false,
+    selected: null
+  }
 }
 
-export const shortcuts = createSlice({
+const shortcuts = createSlice({
   name: 'shortcuts',
   initialState,
   reducers: {
@@ -47,6 +53,10 @@ export const shortcuts = createSlice({
     resetShortcutFilters: (state) => {
       state.filters = initialState.filters;
       state.searchTerm = initialState.searchTerm;
+      state.creator = initialState.creator;
+    },
+    updateShortcutsCreator: (state, { payload }) => {
+      state.creator = { ...state.creator, ...payload };
     },
     resetShortcut: (state) => {
       state.shortcut = initialState.shortcut;
@@ -55,7 +65,7 @@ export const shortcuts = createSlice({
   }
 })
 
-export const { setShortcuts, setShortcutsLoading, setShortcutLoading, setShortcutDetails, setShortcutError, resetShortcut, resetShortcuts, updateShortcutFilters, setShortcutsSearchTerm, resetShortcutFilters } = shortcuts.actions;
+export const { setShortcuts, setShortcutsLoading, setShortcutLoading, setShortcutDetails, setShortcutError, resetShortcut, resetShortcuts, updateShortcutFilters, setShortcutsSearchTerm, updateShortcutsCreator, resetShortcutFilters } = shortcuts.actions;
 
 export const selectShortcuts = (state) => state.shortcuts.shortcuts;
 export const selectShortcutsLoading = (state) => state.shortcuts.loading;
@@ -66,50 +76,56 @@ export const selectShortcut = (state) => state.shortcuts.shortcut.details;
 export const selectShortcutLoading = (state) => state.shortcuts.shortcut.loading;
 export const selectShortcutError = (state) => state.shortcuts.shortcut.error;
 
+export const selectShortcutsCreator = (state) => state.shortcuts.creator;
+
 export const loadShortcuts = () => async (dispatch, getState) => {
   const params = getState().shortcuts.filters ?? {};
   dispatch(setShortcutsLoading(true));
 
-  const response = await switchblade.shortcuts.list(params);
-
-  dispatch(setShortcuts(response.shortcuts ?? []));
-  dispatch(setShortcutsLoading(false));
+  try {
+    const response = await switchblade.shortcuts.list(params);
+    dispatch(setShortcuts(response.shortcuts ?? []));
+  } catch (e) {
+    console.error(e);
+  } finally {
+    dispatch(setShortcutsLoading(false));
+  }
 }
 
 export const loadShortcut = (shortcutId) => async (dispatch) => {
   dispatch(setShortcutLoading(true));
 
-  const response = await switchblade.shortcuts.get(shortcutId);
-
-  dispatch(setShortcutDetails(response.shortcut ?? {}));
-  dispatch(setShortcutLoading(false));
+  try {
+    const response = await switchblade.shortcuts.get(shortcutId);
+    dispatch(setShortcutDetails(response.shortcut ?? {}));
+  } catch (e) {
+    dispatch(setShortcutError(e.message));
+  } finally {
+    dispatch(setShortcutLoading(false));
+  }
 }
 
 export const modifyShortcut = (shortcutId, body) => async (dispatch) => {
   dispatch(setShortcutLoading(true));
 
-  const response = await switchblade.shortcuts.modify(shortcutId, body);
-
-  dispatch(loadShortcuts());
-  dispatch(setShortcutDetails(response.shortcut ?? {}));
-  dispatch(setShortcutLoading(false));
+  try {
+    const response = await switchblade.shortcuts.modify(shortcutId, body);
+    dispatch(loadShortcuts());
+    dispatch(setShortcutDetails(response.shortcut ?? {}));
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 export const createShortcut = (body) => async (dispatch) => {
   dispatch(setShortcutLoading(true));
 
-  const response = await switchblade.shortcuts.create(body);
-
-  dispatch(setShortcutDetails(response.shortcut ?? {}));
-  dispatch(setShortcutLoading(false));
-
-  if (response.message) {
-    dispatch(setShortcutLoading(false));
-    throw new Error(response.message);
-  } else {
+  try {
+    const response = await switchblade.shortcuts.create(body);
     dispatch(loadShortcuts());
-    dispatch(setShortcutDetails(response.shortcut));
-    dispatch(setShortcutLoading(false));
+    dispatch(setShortcutDetails(response.shortcut ?? {}));
+  } catch (e) {
+    console.error(e);
   }
 }
 

@@ -29,14 +29,14 @@ const defaultData = {
   minimumMac: ''
 };
 
-const VersionEditorDrawer = () => {
+const VersionEditorDrawer = ({ viewOnly }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
 
   const [data, setData] = useState(defaultData);
 
-  const updateData = (value) => setData((prev) => ({ ...prev, ...value }))
+  const updateData = (value) => setData((prev) => ({ ...prev, ...value }));
 
   const shortcut = useSelector(selectCurrentShortcut);
 
@@ -92,6 +92,8 @@ const VersionEditorDrawer = () => {
     dispatch(setVersionError());
   }, [JSON.stringify(data)])
 
+  const tabIndex = !!shortcut.name && (!!params.versionNumber || newVersion) ? undefined : -1;
+
   return (
     <Drawer
       header={newVersion ? `New ${shortcut.name} Version` : `${shortcut.name} ${params.versionNumber}`}
@@ -104,9 +106,10 @@ const VersionEditorDrawer = () => {
         <Stack key="footer" style={{ width: '100%' }}>
           <div style={{ alignSelf: 'flex-start' }}>*required field</div>
           <Stack block horizontal>
-            {!newVersion && (
+            {!newVersion && !viewOnly && (
               <Button
                 block
+                tabIndex={tabIndex}
                 disabled={loading}
                 size={Button.Sizes.Large}
                 key="deleteOrRestore"
@@ -119,6 +122,7 @@ const VersionEditorDrawer = () => {
 
             <Button
               block
+              tabIndex={tabIndex}
               disabled={loading}
               size={Button.Sizes.Large}
               key="save"
@@ -146,51 +150,66 @@ const VersionEditorDrawer = () => {
               <LabeledInput block label="Version Number*">
                 <Input
                   block
+                  tabIndex={tabIndex}
                   onChange={(version) => updateData({ version })}
                   placeholder="Version Number"
                   value={data.version}
+                  viewOnly={viewOnly}
                 />
               </LabeledInput>
             )}
 
+            {params.versionNumber && currentVersion?.creator?.name && (
+              <div style={{ alignSelf: 'flex-start' }}>
+                Version created by <span style={{ fontWeight: 900 }}>{currentVersion.creator.name}</span>
+              </div>
+            )}
 
             <LabeledInput block label="iCloud URL*">
               <Input
                 block
+                tabIndex={tabIndex}
                 placeholder="iCloud URL"
                 value={data.url}
                 onChange={(url) => updateData({ url })}
+                viewOnly={viewOnly}
               />
             </LabeledInput>
 
             <LabeledInput block label="Release Notes">
               <Input
                 block
+                tabIndex={tabIndex}
                 mode={Input.Modes.TextArea}
                 placeholder="Release Notes"
                 value={data.notes}
                 onChange={(notes) => updateData({ notes })}
+                viewOnly={viewOnly}
               />
             </LabeledInput>
 
             <LabeledInput block label="Publishing Mode">
               <Select
                 block
+                tabIndex={tabIndex}
                 placeholder="Publishing Mode"
                 options={VERSION_STATES.filter((state) => state.value !== VERSION_STATE_ALL)}
                 value={data.state}
                 onChange={(state) => updateData({ state })}
+                viewOnly={viewOnly}
               />
             </LabeledInput>
 
             <LabeledInput block label="Release Date">
               <Input
                 block
+                tabIndex={tabIndex}
                 type="datetime-local"
                 placeholder="Release Date"
                 value={data.date}
                 onChange={(date) => updateData({ date })}
                 style={{ WebkitAppearance: 'none', height: 32 }}
+                viewOnly={viewOnly}
               />
             </LabeledInput>
 
@@ -198,20 +217,24 @@ const VersionEditorDrawer = () => {
               <LabeledInput block label="Minimum iOS">
                 <Input
                   block
+                  tabIndex={tabIndex}
                   placeholder="Minimum iOS"
                   value={data.minimumiOS}
                   onChange={(minimumiOS) => updateData({ minimumiOS })}
                   inputMode="numeric"
+                  viewOnly={viewOnly}
                 />
               </LabeledInput>
 
               <LabeledInput block label="Minimum Mac">
                 <Input
                   block
+                  tabIndex={tabIndex}
                   placeholder="Minimum Mac"
                   value={data.minimumMac}
                   onChange={(minimumMac) => updateData({ minimumMac })}
                   inputMode="numeric"
+                  viewOnly={viewOnly}
                 />
               </LabeledInput>
 
@@ -219,9 +242,11 @@ const VersionEditorDrawer = () => {
 
             <Stack block horizontal style={{ justifyContent: 'left' }}>
               <Checkbox
+                tabIndex={tabIndex}
                 label="Require users to install update"
                 checked={data.required}
                 onChange={(required) => updateData({ required })}
+                disabled={viewOnly}
               />
             </Stack>
           </Stack>

@@ -1,26 +1,46 @@
+import Button from 'components/Button';
 import { classNames } from 'lib/util';
 import styles from 'styles/Input.module.css';
 
-const Text = ({ size, block, onChange, value, ...props }) => (
-  <input
-    className={`${styles.input} ${size} ${block ? styles.block : ''}`}
-    onChange={(e) => onChange(e.target.value)}
-    value={value ?? ''}
-    {...props}
-  />
+const Text = ({ size, block, onChange, value, button, disabled, viewOnly, ...props }) => (
+  <>
+    <input
+      disabled={disabled || viewOnly}
+      className={classNames([
+        styles.input,
+        size,
+        (block && !button) && styles.block,
+        button && styles.hasButton,
+        viewOnly && styles.viewOnly
+      ])}
+      onChange={(e) => onChange(e.target.value)}
+      value={value ?? (viewOnly ? '-' : '')}
+      {...props}
+    />
+    {button ? (
+      <Button
+        inputButton
+        disabled={button.disabled || props.disabled}
+        color={button.color ?? Button.Colors.White}
+        {...button}
+      />
+    ) : null}
+  </>
 )
 
-const TextArea = ({ size, block, onChange, value, ...props }) => (
+const TextArea = ({ size, block, onChange, value, disabled, viewOnly, ...props }) => (
   <textarea
     rows={5}
+    disabled={disabled || viewOnly}
     className={classNames([
       styles.input,
       styles.textarea,
       size,
-      block && styles.block
+      block && styles.block,
+      viewOnly && styles.viewOnly
     ])}
     onChange={(e) => onChange(e.target.value)}
-    value={value ?? ''}
+    value={value ?? (viewOnly ? '-' : '')}
     {...props}
   />
 )

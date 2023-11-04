@@ -6,7 +6,7 @@ import { loadVersionsForShortcut, selectVersionFilters, selectVersions, selectVe
 import { resetShortcut } from 'state/shortcuts';
 import { setHeader } from 'state/app';
 
-import { VERSION } from 'router/paths';
+import { VERSION, VERSION_VIEW } from 'router/paths';
 
 import { VERSION_STATUS_COLORS } from 'constants/statusColors';
 import { truncate } from 'lib/util';
@@ -19,6 +19,8 @@ import Tag from 'components/Tag';
 import VersionEditorDrawer from 'components/VersionEditorDrawer';
 import NoContent from 'components/NoContent';
 import Button from 'components/Button';
+import PermissionsWrapper from 'components/PermissionsWrapper';
+import { selectCurrentUser } from 'state/server';
 
 const isValidDownloadLink = (url) => {
   try {
@@ -39,7 +41,7 @@ const openUrl = (downloadLink) => {
   }
 }
 
-const ShortcutVersionList = ({ openDrawer }) => {
+const ShortcutVersionList = ({ openDrawer, viewOnly }) => {
   const dispatch = useDispatch();
   const params = useParams();
   const navigate = useNavigate();
@@ -48,6 +50,7 @@ const ShortcutVersionList = ({ openDrawer }) => {
   const currentShortcut = useSelector(selectCurrentShortcut);
   const loading = useSelector(selectVersionsLoading);
   const filters = useSelector(selectVersionFilters);
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     dispatch(setHeader(currentShortcut.name))
@@ -108,13 +111,27 @@ const ShortcutVersionList = ({ openDrawer }) => {
                         horizontal
                         style={{ justifyContent: 'space-between' }} gap={10}
                       >
-                        <Button
-                          block
-                          color={Button.Colors.White}
-                          onClick={() => navigate(VERSION(params.shortcutId, version.version))}
+                        <PermissionsWrapper
+                          permissionKey="modifyVersionForAnyShortcut"
+                          or={currentShortcut.creator.id === currentUser.id}
+                          fallback={(
+                            <Button
+                              block
+                              color={Button.Colors.White}
+                              onClick={() => navigate(VERSION_VIEW(params.shortcutId, version.version))}
+                            >
+                              Details
+                            </Button>
+                          )}
                         >
-                          Edit
-                        </Button>
+                          <Button
+                            block
+                            color={Button.Colors.White}
+                            onClick={() => navigate(VERSION(params.shortcutId, version.version))}
+                          >
+                            Edit
+                          </Button>
+                        </PermissionsWrapper>
 
                         <Button
                           block
@@ -136,7 +153,7 @@ const ShortcutVersionList = ({ openDrawer }) => {
         }
       </Grid>
 
-      <VersionEditorDrawer open={openDrawer} />
+      <VersionEditorDrawer open={openDrawer} viewOnly={viewOnly} />
     </Stack >
   )
 }

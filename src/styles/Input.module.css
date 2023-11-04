@@ -17,6 +17,11 @@
   }
 }
 
+.hasButton {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .textarea {
   resize: vertical;
 }
@@ -33,4 +38,11 @@
 .large {
   font-size: 20px;
   padding: 10px 15px;
+}
+
+.viewOnly {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  padding: 0;
+  color: black;
 }

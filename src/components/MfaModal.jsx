@@ -22,28 +22,30 @@ const MfaModal = ({ open, setOpen, onSuccess }) => {
   const beginSetup = async () => {
     if (open) {
       setLoading(true);
-      const response = await switchblade.me.beginMfaSetup();
-      if (response.setup) {
+      try {
+        const response = await switchblade.me.beginMfaSetup();
         setMfaData(response.setup);
-      } else {
-        setMessage(response.message ?? 'There was a problem beginning the MFA setup process.');
+      } catch (e) {
+        setMessage(e.message ?? 'There was a problem beginning the MFA setup process.');
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
   }
 
   const completeMfaSetup = async () => {
     if (otp.length < 6) return;
-    setLoading(true);
-    const response = await switchblade.me.completeMfaSetup(otp);
-    if (response.success) {
+    try {
+      setLoading(true);
+      await switchblade.me.completeMfaSetup(otp);
       onSuccess();
       setOtp('');
       setOpen(false);
-    } else {
-      setError(response.message ?? 'There was a problem enabling MFA on your account.');
+    } catch (e) {
+      setError(e.message ?? 'There was a problem enabling MFA on your account.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   useEffect(() => {

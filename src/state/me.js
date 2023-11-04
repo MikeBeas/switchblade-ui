@@ -6,7 +6,7 @@ const initialState = {
   user: {}
 }
 
-export const me = createSlice({
+const me = createSlice({
   name: 'me',
   initialState,
   reducers: {
@@ -28,26 +28,41 @@ export const selectMeLoading = (state) => state.me.loading;
 export const loadMe = () => async (dispatch) => {
   dispatch(setMeLoading(true));
 
-  const response = await switchblade.me.get();
+  try {
+    const response = await switchblade.me.get();
+    dispatch(setMe(response.user));
+  } catch (e) {
+    console.error(e.message);
+  } finally {
+    dispatch(setMeLoading(false));
+  }
 
-  dispatch(setMe(response.user));
-  dispatch(setMeLoading(false));
 }
 
 export const modifyMe = (body) => async (dispatch) => {
   dispatch(setMeLoading(true));
 
-  const response = await switchblade.me.modify(body);
-  dispatch(setMe(response.user))
-  dispatch(setMeLoading(false))
+  try {
+    const response = await switchblade.me.modify(body);
+    dispatch(setMe(response.user))
+  } catch (e) {
+    console.error(e.message);
+  } finally {
+    dispatch(setMeLoading(false))
+  }
 }
 
 export const disableMfa = () => async (dispatch) => {
   dispatch(setMeLoading(true));
 
-  const response = await switchblade.me.disableMfa();
-  dispatch(setMe(response.user))
-  dispatch(setMeLoading(false))
+  try {
+    const response = await switchblade.me.disableMfa();
+    dispatch(setMe(response.user))
+  } catch (e) {
+    console.error(e);
+  } finally {
+    dispatch(setMeLoading(false))
+  }
 }
 
 export default me.reducer;

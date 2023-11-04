@@ -11,7 +11,7 @@ const LabeledInput = ({ label, children, block, style }) => (
       ...style
     }}
   >
-    <div>{label}</div>
+    <div style={{ fontWeight: 700, fontSize: '1.1em' }}>{label}</div>
     {children}
   </Stack>
 )

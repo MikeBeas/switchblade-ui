@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { resetVersionFilters, resetVersions, selectVersionFilters, selectVersionsLoading, selectVersionsSearchTerm, setVersionsSearchTerm, updateVersionFilters } from 'state/versions';
+import { resetVersionFilters, resetVersions, selectVersionFilters, selectVersionsCreator, selectVersionsLoading, selectVersionsSearchTerm, setVersionsSearchTerm, updateVersionFilters, updateVersionsCreator } from 'state/versions';
 
 import { VERSION_STATES } from 'constants/versionStates';
 import { DELETED_STATES } from 'constants/deletedStates';
@@ -17,14 +17,17 @@ import MobileSwap from 'components/MobileSwap';
 import Input from 'components/Input';
 import FeatureFlag from 'components/FeatureFlag';
 
+import { switchblade } from 'lib/switchblade';
 import { isMobile } from 'lib/config';
 import { useDebounce } from 'lib/util';
+import AutoComplete from 'components/AutoComplete';
 
 const FilterVersions = () => {
   const dispatch = useDispatch();
 
   const loading = useSelector(selectVersionsLoading);
   const filters = useSelector(selectVersionFilters);
+  const creator = useSelector(selectVersionsCreator);
 
   const search = useSelector(selectVersionsSearchTerm);
   const debouncedSearch = useDebounce(search, 500);
@@ -37,8 +40,40 @@ const FilterVersions = () => {
     dispatch(resetVersions());
   }, [])
 
+  const onSearchCreator = async (searchTerm) => {
+    if (!searchTerm) {
+      dispatch(updateVersionsCreator({ options: [] }));
+      return;
+    }
+
+    dispatch(updateVersionsCreator({ loading: true }));
+
+    const { users } = await switchblade.autocomplete.users(searchTerm);
+    const newOpts = users.map((u) => ({ label: u.username, value: u.id }));
+    dispatch(updateVersionsCreator({ loading: false, options: newOpts }));
+  }
+
+  const onSelectCreator = (selectedCreator) => {
+    dispatch(updateVersionFilters({ creatorId: selectedCreator?.value ?? null }))
+    dispatch(updateVersionsCreator({ selected: selectedCreator }));
+  }
+
   const render = () => (
     <Stack block horizontal style={{ justifyContent: isMobile ? 'center' : 'flex-start', alignItems: 'end', flexWrap: 'wrap', rowGap: 15 }}>
+      <FeatureFlag flag="CREATOR_ID_FILTER">
+        <LabeledInput label="Version Creator">
+          <AutoComplete
+            placeholder="Find Users"
+            disabled={loading}
+            loading={creator.loading}
+            block={isMobile}
+            value={creator.selected}
+            onSearch={onSearchCreator}
+            onChange={(newCreatorId) => onSelectCreator(newCreatorId)}
+            options={creator.options}
+          />
+        </LabeledInput>
+      </FeatureFlag>
 
       <FeatureFlag flag="VERSION_KEYWORD_SEARCH">
         <LabeledInput label="Search">
@@ -52,7 +87,7 @@ const FilterVersions = () => {
         </LabeledInput>
       </FeatureFlag>
 
-      <LabeledInput label="Shortcut Status">
+      <LabeledInput label="Status">
         <Select
           disabled={loading}
           style={{ width: isMobile ? '100%' : undefined }}

@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { loadShortcuts, selectShortcutFilters, selectShortcuts, selectShortcutsLoading } from 'state/shortcuts';
+import { selectCurrentUser } from 'state/server';
 import { setHeader } from 'state/app';
 
-import { SHORTCUT, VERSION } from 'router/paths';
+import { SHORTCUT, SHORTCUT_VIEW, VERSION } from 'router/paths';
 import { truncate } from 'lib/util';
 
 import { SHORTCUT_STATUS_COLORS } from 'constants/statusColors';
@@ -18,14 +19,16 @@ import Loader from 'components/Loader';
 import Button from 'components/Button';
 import ShortcutEditorDrawer from 'components/ShortcutEditorDrawer';
 import NoContent from 'components/NoContent';
+import PermissionsWrapper from 'components/PermissionsWrapper';
 
-const ShortcutList = ({ openDrawer }) => {
+const ShortcutList = ({ openDrawer, viewOnly }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const shortcuts = useSelector(selectShortcuts);
   const filters = useSelector(selectShortcutFilters);
   const loading = useSelector(selectShortcutsLoading);
+  const user = useSelector(selectCurrentUser);
 
   useEffect(() => {
     dispatch(loadShortcuts());
@@ -70,13 +73,27 @@ const ShortcutList = ({ openDrawer }) => {
                     horizontal
                     style={{ justifyContent: 'space-between' }} gap={10}
                   >
-                    <Button
-                      block
-                      color={Button.Colors.White}
-                      onClick={() => navigate(SHORTCUT(shortcut.id))}
+                    <PermissionsWrapper
+                      permissionKey="modifyAnyShortcut"
+                      or={shortcut.creator.id === user.id}
+                      fallback={
+                        <Button
+                          block
+                          color={Button.Colors.White}
+                          onClick={() => navigate(SHORTCUT_VIEW(shortcut.id))}
+                        >
+                          Details
+                        </Button>
+                      }
                     >
-                      Edit
-                    </Button>
+                      <Button
+                        block
+                        color={Button.Colors.White}
+                        onClick={() => navigate(SHORTCUT(shortcut.id))}
+                      >
+                        Edit
+                      </Button>
+                    </PermissionsWrapper>
 
                     <Button
                       block
@@ -95,7 +112,7 @@ const ShortcutList = ({ openDrawer }) => {
         </Grid>
       )}
 
-      <ShortcutEditorDrawer open={openDrawer} />
+      <ShortcutEditorDrawer open={openDrawer} viewOnly={viewOnly} />
     </Stack>
   )
 }

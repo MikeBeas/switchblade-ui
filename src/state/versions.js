@@ -19,13 +19,19 @@ const initialState = {
     deleted: DELETED_STATE_NO,
     prerelease: PRERELEASE_STATE_ALL,
     required: REQUIRED_STATE_ALL,
-    search: ''
+    search: '',
+    creatorId: null
   },
   searchTerm: '',
-  newVersion: false
+  newVersion: false,
+  creator: {
+    options: [],
+    loading: false,
+    selected: null
+  }
 }
 
-export const versions = createSlice({
+const versions = createSlice({
   name: 'versions',
   initialState,
   reducers: {
@@ -51,6 +57,7 @@ export const versions = createSlice({
     resetVersionFilters: (state) => {
       state.filters = initialState.filters;
       state.searchTerm = initialState.searchTerm;
+      state.creator = initialState.creator;
     },
     setVersionError: (state, { payload }) => {
       state.currentVersion.error = payload;
@@ -58,11 +65,14 @@ export const versions = createSlice({
     setNewVersion: (state, { payload }) => {
       state.newVersion = payload;
     },
+    updateVersionsCreator: (state, { payload }) => {
+      state.creator = { ...state.creator, ...payload };
+    },
     resetVersions: () => initialState
   }
 })
 
-export const { setVersionsData, setVersionsLoading, resetVersions, updateVersionFilters, setVersionsSearchTerm, resetVersionFilters, setCurrentVersion, setCurrentVersionLoading, setVersionError, setNewVersion } = versions.actions;
+export const { setVersionsData, setVersionsLoading, resetVersions, updateVersionFilters, setVersionsSearchTerm, resetVersionFilters, setCurrentVersion, setCurrentVersionLoading, setVersionError, setNewVersion, updateVersionsCreator } = versions.actions;
 
 export const selectVersions = (state) => state.versions.versions;
 export const selectCurrentShortcut = (state) => state.versions.shortcut;
@@ -76,37 +86,48 @@ export const selectCurrentVersionError = (state) => state.versions.currentVersio
 
 export const selectNewVersion = (state) => state.versions.newVersion;
 
+export const selectVersionsCreator = (state) => state.versions.creator;
+
 export const loadVersionsForShortcut = (shortcutId) => async (dispatch, getState) => {
   const params = getState().versions.filters ?? {};
   dispatch(setVersionsLoading(true));
 
-  const response = await switchblade.versions.list(shortcutId, params);
-
-  dispatch(setVersionsData(response ?? { version: initialState.versions, shortcut: initialState.shortcut }))
-  dispatch(setVersionsLoading(false));
+  try {
+    const response = await switchblade.versions.list(shortcutId, params);
+    dispatch(setVersionsData(response ?? { version: initialState.versions, shortcut: initialState.shortcut }))
+  } catch (e) {
+    console.error(e)
+  } finally {
+    dispatch(setVersionsLoading(false));
+  }
 }
 
 export const loadCurrentVersion = (shortcutId, versionNumber) => async (dispatch) => {
   dispatch(setVersionError());
   dispatch(setCurrentVersionLoading(true));
 
-  const response = await switchblade.versions.get(shortcutId, versionNumber);
-  dispatch(setCurrentVersion(response.version));
-  dispatch(setCurrentVersionLoading(false));
+  try {
+    const response = await switchblade.versions.get(shortcutId, versionNumber);
+    dispatch(setCurrentVersion(response.version));
+  } catch (e) {
+    dispatch(setVersionError(e.message));
+  } finally {
+    dispatch(setCurrentVersionLoading(false));
+  }
 }
 
 export const modifyVersionForShortcut = (shortcutId, versionNumber, changes) => async (dispatch) => {
   dispatch(setCurrentVersionLoading(true));
   dispatch(setVersionError());
 
-  const response = await switchblade.versions.modify(shortcutId, versionNumber, changes);
-
-  if (response.message) {
-    dispatch(setCurrentVersionLoading(false));
-    throw new Error(response.message);
-  } else {
+  try {
+    const response = await switchblade.versions.modify(shortcutId, versionNumber, changes);
     dispatch(setCurrentVersion(response.version));
     dispatch(loadVersionsForShortcut(shortcutId));
+  } catch (e) {
+    dispatch(setCurrentVersionLoading(false));
+    throw new Error(e.message);
+  } finally {
     dispatch(setCurrentVersionLoading(false));
   }
 }
@@ -115,15 +136,15 @@ export const newVersionForShortcut = (shortcutId, body) => async (dispatch) => {
   dispatch(setCurrentVersionLoading(true));
   dispatch(setVersionError());
 
-  const response = await switchblade.versions.create(shortcutId, body);
-
-  if (response.message) {
-    dispatch(setCurrentVersionLoading(false));
-    throw new Error(response.message);
-  } else {
+  try {
+    const response = await switchblade.versions.create(shortcutId, body);
     dispatch(setCurrentVersion(response.version));
     dispatch(setNewVersion(false));
     dispatch(loadVersionsForShortcut(shortcutId));
+    dispatch(setCurrentVersionLoading(false));
+  } catch (e) {
+    throw new Error(e.message);
+  } finally {
     dispatch(setCurrentVersionLoading(false));
   }
 }

@@ -91,32 +91,35 @@ const LoginPage = () => {
   }, [showMfaForm, serverConfig.api.host, tokenExpired])
 
   const login = useCallback(async () => {
-    dispatch(setAuthLoading(true))
-    setError('');
+    try {
+      dispatch(setAuthLoading(true))
+      setError('');
 
-    switchblade.authenticate();
-    localStorage.removeItem("token");
-    const { token, message, mfaRequired, mfaToken } = await switchblade.core.login({ username, password, otp, mfaToken: mfaJwt });
+      switchblade.authenticate();
+      localStorage.removeItem("token");
+      const { token, mfaRequired, mfaToken } = await switchblade.core.login({ username, password, otp, mfaToken: mfaJwt });
 
-    if (token) {
-      localStorage.setItem("token", token);
-      switchblade.authenticate(token, () => dispatch(logout(true)));
-      dispatch(loadServerConfig());
-      reset();
-    } else if (mfaRequired) {
-      setShowMfaForm(true);
-      setMfaJwt(mfaToken);
-      switchblade.setExpiredTokenHandler(() => {
-        setError(`Your login expired while waiting for the security code. Please try again.`);
-        setShowMfaForm(false);
-        setOtp('');
-        setMfaJwt();
-      })
-      reset();
-    } else {
-      if (message) setError(message);
+      if (token) {
+        localStorage.setItem("token", token);
+        switchblade.authenticate(token, () => dispatch(logout(true)));
+        dispatch(loadServerConfig());
+        reset();
+      } else if (mfaRequired) {
+        setShowMfaForm(true);
+        setMfaJwt(mfaToken);
+        switchblade.setExpiredTokenHandler(() => {
+          setError(`Your login expired while waiting for the security code. Please try again.`);
+          setShowMfaForm(false);
+          setOtp('');
+          setMfaJwt();
+        })
+        reset();
+      }
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      dispatch(setAuthLoading(false))
     }
-    dispatch(setAuthLoading(false))
   }, [username, password, otp, mfaJwt])
 
   const handleKey = useCallback((e) => {
@@ -244,7 +247,7 @@ const LoginPage = () => {
               </Stack>
             </>
           ) : (
-            <Stack center block direction={Stack.Directions.Vertical}>
+            <Stack center block>
               {serverConfig.error && !serverConfig.loading && (
                 <Alert
                   centered

@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { selectShowNavDrawer, setShowNavDrawer, setShowSystemInfoDrawer } from 'state/app';
+import { selectCurrentUser } from 'state/server';
 import { logout } from 'state/auth';
 
-import { ME } from 'router/paths';
+import { ME, USERS } from 'router/paths';
 import { isMobile } from 'lib/config';
 
 import Drawer from 'components/Drawer';
@@ -15,15 +16,22 @@ import Stack from 'components/Stack';
 
 import { ReactComponent as SwitchbladeIcon } from 'icons/switchblade.svg';
 import { ReactComponent as UserIcon } from 'icons/user.svg';
+import { ReactComponent as ManageUsersIcon } from 'icons/manage-users.svg';
 
 const sidebarItems = [
   {
-    label: "My Shortcuts",
+    label: "Shortcuts",
     link: "/",
     icon: SwitchbladeIcon
   },
   {
-    label: "Manage Account",
+    label: "Users",
+    link: USERS,
+    icon: ManageUsersIcon,
+    permission: 'viewUsers'
+  },
+  {
+    label: "My Account",
     link: ME,
     icon: UserIcon
   }
@@ -33,6 +41,9 @@ const NavDrawer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const showNavDrawer = useSelector(selectShowNavDrawer);
+  const { permissions } = useSelector(selectCurrentUser);
+
+  const tabIndex = showNavDrawer ? undefined : -1;
 
   return (
     <Drawer
@@ -45,6 +56,7 @@ const NavDrawer = () => {
       footer={[
         <Button
           block
+          tabIndex={tabIndex}
           size={Button.Sizes.Large}
           key="systemInfo"
           color={Button.Colors.White}
@@ -57,6 +69,7 @@ const NavDrawer = () => {
         </Button>,
         <Button
           block
+          tabIndex={tabIndex}
           size={Button.Sizes.Large}
           key="logout"
           color={Button.Colors.Red}
@@ -66,8 +79,8 @@ const NavDrawer = () => {
         </Button>
       ]}
     >
-      <Stack direction={Stack.Directions.Vertical}>
-        {sidebarItems.map((item) => (
+      <Stack>
+        {sidebarItems.map((item) => !item.permission || permissions?.[item.permission] ? (
           <NavLink
             key={item.label}
             label={item.label}
@@ -78,7 +91,7 @@ const NavDrawer = () => {
               dispatch(setShowNavDrawer(false));
             }}
           />
-        ))}
+        ) : null)}
       </Stack>
     </Drawer>
   )

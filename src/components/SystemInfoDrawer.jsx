@@ -14,6 +14,18 @@ import Button from 'components/Button';
 import { switchblade } from 'lib/switchblade';
 import { isDev } from 'lib/util';
 
+import { ReactComponent as EnabledIcon } from 'icons/enabled.svg';
+import { ReactComponent as DisabledIcon } from 'icons/disabled.svg';
+
+const iconProps = {
+  style: {
+    height: 16,
+    width: 16,
+    maxHeight: 16,
+    maxWidth: 16
+  }
+}
+
 const SystemInfoDrawer = () => {
   const dispatch = useDispatch();
 
@@ -51,6 +63,28 @@ const SystemInfoDrawer = () => {
           value: enabledFlags.length > 0 ? (
             <Stack gap={5} style={{ alignItems: 'flex-start', marginTop: 5 }}>
               {enabledFlags.map((i) => <code key={i}>{i}</code>)}
+            </Stack>
+          ) : 'None'
+        },
+        {
+          label: 'Current Permissions',
+          value: Object.values(systemConfig.api.user.permissions).filter((value) => value).length > 0 ? (
+            <Stack gap={15} style={{ alignItems: 'flex-start', marginTop: 10 }}>
+              {systemConfig.permissions.map((permissionsGroup) => (
+                <div key={permissionsGroup.key}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    {permissionsGroup.permissions.map((permission) => (
+                      <div key={permission.label} style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+                        {(systemConfig.api.user.permissions[permission.key] ?
+                          <EnabledIcon  {...iconProps} />
+                          : <DisabledIcon {...iconProps} />
+                        )}
+                        {permission.label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </Stack>
           ) : 'None'
         }
@@ -94,15 +128,18 @@ const SystemInfoDrawer = () => {
     }
   ]
 
+  const tabIndex = showSystemInfoDrawer ? undefined : -1;
+
   return (
     <Drawer
+      tabIndex={tabIndex}
       header="System Info"
       position={Drawer.Positions.Left}
       open={showSystemInfoDrawer}
       showCloseButton={false}
       hide={() => dispatch(setShowSystemInfoDrawer(false))}
       footer={[
-        <Button block key="close" size={Button.Sizes.Large} color={Button.Colors.White} onClick={() => dispatch(setShowSystemInfoDrawer(false))}>
+        <Button tabIndex={tabIndex} block key="close" size={Button.Sizes.Large} color={Button.Colors.White} onClick={() => dispatch(setShowSystemInfoDrawer(false))}>
           Close
         </Button>
       ]}

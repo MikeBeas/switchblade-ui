@@ -1,6 +1,6 @@
 {
   "name": "switchblade-ui",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Mike Beasley",
   "scripts": {
     "start": "vite",
@@ -18,7 +18,7 @@
     "react-redux": "^8.0.5",
     "react-router": "^6.11.1",
     "react-router-dom": "^6.11.1",
-    "switchblade-sdk": "^1.0.0"
+    "switchblade-sdk": "^1.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",

@@ -37,3 +37,10 @@
 .selected {
   background-color: lightgrey;
 }
+
+.viewOnly {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  padding: 0;
+  color: black;
+}

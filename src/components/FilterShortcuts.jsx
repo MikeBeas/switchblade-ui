@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { resetShortcutFilters, selectShortcutFilters, selectShortcutsLoading, selectShortcutsSearchTerm, setShortcutsSearchTerm, updateShortcutFilters } from 'state/shortcuts';
+import { resetShortcutFilters, selectShortcutsCreator, selectShortcutFilters, selectShortcutsLoading, selectShortcutsSearchTerm, setShortcutsSearchTerm, updateShortcutFilters, updateShortcutsCreator } from 'state/shortcuts';
 
 import { SHORTCUT_STATES } from 'constants/shortcutStates';
 import { DELETED_STATES } from 'constants/deletedStates';
@@ -15,14 +15,17 @@ import MobileSwap from 'components/MobileSwap';
 import Input from 'components/Input';
 import FeatureFlag from 'components/FeatureFlag';
 
+import { switchblade } from 'lib/switchblade';
 import { isMobile } from 'lib/config';
 import { useDebounce } from 'lib/util';
+import AutoComplete from 'components/AutoComplete';
 
 const FilterShortcuts = () => {
   const dispatch = useDispatch();
 
   const loading = useSelector(selectShortcutsLoading);
   const filters = useSelector(selectShortcutFilters);
+  const creator = useSelector(selectShortcutsCreator);
 
   const search = useSelector(selectShortcutsSearchTerm);
   const debouncedSearch = useDebounce(search, 500);
@@ -31,8 +34,41 @@ const FilterShortcuts = () => {
     dispatch(updateShortcutFilters({ search: debouncedSearch }))
   }, [debouncedSearch]);
 
+  const onSearchCreator = async (searchTerm) => {
+    if (!searchTerm) {
+      dispatch(updateShortcutsCreator({ options: [] }));
+      return;
+    }
+
+    dispatch(updateShortcutsCreator({ loading: true }));
+
+    const { users } = await switchblade.autocomplete.users(searchTerm);
+    const newOpts = users.map((u) => ({ label: u.username, value: u.id }));
+    dispatch(updateShortcutsCreator({ loading: false, options: newOpts }));
+  }
+
+  const onSelectCreator = (selectedCreator) => {
+    dispatch(updateShortcutFilters({ creatorId: selectedCreator?.value ?? null }))
+    dispatch(updateShortcutsCreator({ selected: selectedCreator }));
+  }
+
   const render = () => (
     <Stack block horizontal style={{ justifyContent: isMobile ? 'center' : 'flex-start', alignItems: 'end', flexWrap: 'wrap', rowGap: 15 }}>
+      <FeatureFlag flag="CREATOR_ID_FILTER">
+        <LabeledInput label="Shortcut Creator">
+          <AutoComplete
+            placeholder="Find Users"
+            disabled={loading}
+            loading={creator.loading}
+            block={isMobile}
+            value={creator.selected}
+            onSearch={onSearchCreator}
+            onChange={(newCreatorId) => onSelectCreator(newCreatorId)}
+            options={creator.options}
+          />
+        </LabeledInput>
+      </FeatureFlag>
+
       <FeatureFlag flag="SHORTCUT_KEYWORD_SEARCH">
         <LabeledInput label="Search">
           <Input
@@ -45,7 +81,7 @@ const FilterShortcuts = () => {
         </LabeledInput>
       </FeatureFlag>
 
-      <LabeledInput label="Shortcut Status">
+      <LabeledInput label="Status">
         <Select
           disabled={loading}
           block={isMobile}

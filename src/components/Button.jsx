@@ -1,14 +1,15 @@
 import { classNames } from 'lib/util';
 import styles from 'styles/Button.module.css';
 
-const Button = ({ children, size, block, color, ghost, ...props }) => (
+const Button = ({ children, size, block, color, ghost, inputButton, ...props }) => (
   <button
     className={classNames([
       styles.button,
       size,
       color,
       block && styles.block,
-      ghost && styles.ghost
+      ghost && styles.ghost,
+      inputButton && styles.inputButton
     ])}
     {...props}
   >

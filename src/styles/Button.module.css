@@ -19,6 +19,12 @@
   -webkit-user-select: none;
 }
 
+.inputButton {
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .block {
   width: 100%;
 }
