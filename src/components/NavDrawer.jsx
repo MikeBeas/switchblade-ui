@@ -14,9 +14,9 @@ import NavLink from 'components/NavLink';
 import Button from 'components/Button';
 import Stack from 'components/Stack';
 
-import { ReactComponent as SwitchbladeIcon } from 'icons/switchblade.svg';
-import { ReactComponent as UserIcon } from 'icons/user.svg';
-import { ReactComponent as ManageUsersIcon } from 'icons/manage-users.svg';
+import SwitchbladeIcon from 'icons/switchblade.svg?react';
+import UserIcon from 'icons/user.svg?react';
+import ManageUsersIcon from 'icons/manage-users.svg?react';
 
 const sidebarItems = [
   {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ReactComponent as CollapseIcon } from 'icons/collapse.svg';
+import CollapseIcon from 'icons/collapse.svg?react';
 import Icon from 'components/Icon';
 
 import styles from 'styles/Collapse.module.css';

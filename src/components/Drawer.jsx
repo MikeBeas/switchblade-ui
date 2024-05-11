@@ -1,9 +1,9 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import Button from 'components/Button';
 import { isMobile, isInstalled } from 'lib/config';
 import { classNames } from 'lib/util';
 import Icon from 'components/Icon';
-import { ReactComponent as CloseIcon } from 'icons/close.svg';
+import CloseIcon from 'icons/close.svg?react';
 import styles from 'styles/Drawer.module.css';
 
 const Positions = {
@@ -16,7 +16,7 @@ const Positions = {
 const Drawer = ({ open, header, children, footer, hide, canClose, showCloseButton, rounded, width, height, position }) => {
   const ESC = "Escape";
 
-  const drawerHandleKey = useCallback((e) => { if (e.code === ESC && canClose) hide() }, [hide, canClose])
+  const drawerHandleKey = useMemo(() => (e) => { if (e.code === ESC && canClose) hide() }, []);
 
   useEffect(() => {
     if (open) {
@@ -24,7 +24,7 @@ const Drawer = ({ open, header, children, footer, hide, canClose, showCloseButto
       document.addEventListener("keydown", drawerHandleKey);
     } else {
       document.getElementsByTagName("body")[0].style.overflow = "scroll";
-      document.removeEventListener("keydown", drawerHandleKey)
+      document.removeEventListener("keydown", drawerHandleKey);
     }
   }, [open, drawerHandleKey])
 

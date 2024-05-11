@@ -1,4 +1,4 @@
-import { ReactComponent as LoaderIcon } from 'icons/loader.svg';
+import LoaderIcon from 'icons/loader.svg?react';
 import styles from 'styles/Loader.module.css';
 
 const Loader = ({ size, maxSize, animation }) => {

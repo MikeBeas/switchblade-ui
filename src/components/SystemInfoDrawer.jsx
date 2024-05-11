@@ -14,8 +14,8 @@ import Button from 'components/Button';
 import { switchblade } from 'lib/switchblade';
 import { isDev } from 'lib/util';
 
-import { ReactComponent as EnabledIcon } from 'icons/enabled.svg';
-import { ReactComponent as DisabledIcon } from 'icons/disabled.svg';
+import EnabledIcon from 'icons/enabled.svg?react';
+import DisabledIcon from 'icons/disabled.svg?react';
 
 const iconProps = {
   style: {

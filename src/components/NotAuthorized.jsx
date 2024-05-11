@@ -3,7 +3,7 @@ import Icon from 'components/Icon';
 import Modal from 'components/Modal';
 import Stack from 'components/Stack';
 
-import { ReactComponent as AlertIcon } from 'icons/alert.svg';
+import AlertIcon from 'icons/alert.svg?react';
 import { useNavigate } from 'react-router';
 
 const NotAuthorized = () => {

@@ -18,7 +18,7 @@ import Icon from 'components/Icon';
 import Checkbox from 'components/Checkbox';
 import FeatureFlag from 'components/FeatureFlag';
 
-import { ReactComponent as SwitchbladeIcon } from 'icons/switchblade.svg';
+import SwitchbladeIcon from 'icons/switchblade.svg?react';
 
 import animations from 'styles/animations.module.css';
 

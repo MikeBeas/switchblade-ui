@@ -7,7 +7,7 @@ import Stack from 'components/Stack';
 import Icon from 'components/Icon';
 import Divider from 'components/Divider';
 
-import { ReactComponent as MenuIcon } from 'icons/menu.svg';
+import MenuIcon from 'icons/menu.svg?react';
 import styles from 'styles/Header.module.css';
 
 const Header = () => {

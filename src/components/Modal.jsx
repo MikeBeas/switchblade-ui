@@ -1,22 +1,22 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import Button from 'components/Button';
 import { classNames } from 'lib/util';
 import Icon from 'components/Icon';
-import { ReactComponent as CloseIcon } from 'icons/close.svg';
+import CloseIcon from 'icons/close.svg?react';
 import styles from 'styles/Modal.module.css';
 
 const Modal = ({ open, header, footer, hide, canClose, showCloseButton, children }) => {
   const ESC = "Escape";
 
-  const modalHandleKey = useCallback((e) => { if (e.code === ESC && canClose) hide() }, [hide, canClose])
+  const modalHandleKey = useMemo(() => (e) => { if (e.code === ESC && canClose) hide() }, []);
 
   useEffect(() => {
     if (open) {
       document.getElementsByTagName("body")[0].style.overflow = "hidden";
       document.addEventListener("keydown", modalHandleKey);
     } else {
-      document.removeEventListener("keydown", modalHandleKey)
       document.getElementsByTagName("body")[0].style.overflow = "scroll";
+      document.removeEventListener("keydown", modalHandleKey);
     }
   }, [open, modalHandleKey])
 

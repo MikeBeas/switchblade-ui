@@ -1,33 +1,28 @@
 {
   "name": "switchblade-ui",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Mike Beasley",
   "scripts": {
     "start": "vite",
     "dev": "vite --host",
     "build": "npm run clean && SWITCHBLADE_API_HOST=$SWITCHBLADE_API_HOST vite build",
     "clean": "rm -rf build",
-    "lint": "eslint src",
     "serve": "vite serve build"
   },
+  "type": "module",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.5",
-    "dayjs": "^1.11.7",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^8.0.5",
-    "react-router": "^6.11.1",
-    "react-router-dom": "^6.11.1",
-    "switchblade-sdk": "^1.1.0"
+    "@reduxjs/toolkit": "^2.2.4",
+    "dayjs": "^1.11.11",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-redux": "^9.1.2",
+    "react-router": "^6.23.1",
+    "react-router-dom": "^6.23.1",
+    "switchblade-sdk": "^1.2.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.0.0",
-    "eslint": "^8.38.0",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
-    "vite": "^4.3.2",
-    "vite-plugin-rewrite-all": "^1.0.1",
-    "vite-plugin-svgr": "^3.2.0"
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.2.11",
+    "vite-plugin-svgr": "^4.2.0"
   }
 }

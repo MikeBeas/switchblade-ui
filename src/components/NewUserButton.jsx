@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 
 import Icon from 'components/Icon';
-import { ReactComponent as NewIcon } from 'icons/new.svg';
+import NewIcon from 'icons/new.svg?react';
 import PermissionsWrapper from 'components/PermissionsWrapper';
 import { USER } from 'router/paths';
 
