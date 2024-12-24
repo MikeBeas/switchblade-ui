@@ -1,7 +1,7 @@
 import LoaderIcon from 'icons/loader.svg?react';
 import styles from 'styles/Loader.module.css';
 
-const Loader = ({ size, maxSize, animation }) => {
+const Loader = ({ size = 48, maxSize, animation }) => {
   return (
     <span
       className={animation}
@@ -24,10 +24,6 @@ const Loader = ({ size, maxSize, animation }) => {
       />
     </span>
   )
-}
-
-Loader.defaultProps = {
-  size: 48
 }
 
 export default Loader;

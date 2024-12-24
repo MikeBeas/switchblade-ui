@@ -1,6 +1,6 @@
 import styles from 'styles/Grid.module.css';
 
-const Grid = ({ children, itemWidth }) => (
+const Grid = ({ children, itemWidth = '350px' }) => (
   <div
     className={styles.grid}
     style={{
@@ -10,9 +10,5 @@ const Grid = ({ children, itemWidth }) => (
     {children}
   </div>
 )
-
-Grid.defaultProps = {
-  itemWidth: '350px'
-}
 
 export default Grid;

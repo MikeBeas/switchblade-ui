@@ -5,7 +5,7 @@ import Icon from 'components/Icon';
 import CloseIcon from 'icons/close.svg?react';
 import styles from 'styles/Modal.module.css';
 
-const Modal = ({ open, header, footer, hide, canClose, showCloseButton, children }) => {
+const Modal = ({ open, header, footer, hide, canClose = true, showCloseButton, children }) => {
   const ESC = "Escape";
 
   const modalHandleKey = useMemo(() => (e) => { if (e.code === ESC && canClose) hide() }, []);
@@ -77,10 +77,6 @@ const Modal = ({ open, header, footer, hide, canClose, showCloseButton, children
       </div>
     </div>
   )
-}
-
-Modal.defaultProps = {
-  canClose: true
 }
 
 export default Modal;

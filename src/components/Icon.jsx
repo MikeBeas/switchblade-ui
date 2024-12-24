@@ -1,4 +1,4 @@
-const Icon = ({ icon, size, maxSize, color, style, onClick, ...props }) => icon({
+const Icon = ({ icon, size = 48, maxSize, color, style, onClick, ...props }) => icon({
   style: {
     display: 'flex',
     alignItems: 'center',
@@ -14,9 +14,5 @@ const Icon = ({ icon, size, maxSize, color, style, onClick, ...props }) => icon(
   onClick,
   ...props
 })
-
-Icon.defaultProps = {
-  size: 48
-}
 
 export default Icon;

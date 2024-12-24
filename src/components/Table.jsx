@@ -1,7 +1,7 @@
 import Stack from 'Stack';
 import styles from 'styles/Table.module.css';
 
-const Table = ({ rows, columns, empty }) => (
+const Table = ({ rows = [], columns = [], empty = "No Data" }) => (
   <div className={styles.tableContainer}>
     <table className={styles.table}>
       <thead>
@@ -39,11 +39,5 @@ const Table = ({ rows, columns, empty }) => (
     )}
   </div>
 )
-
-Table.defaultProps = {
-  rows: [],
-  columns: [],
-  empty: "No Data"
-}
 
 export default Table;

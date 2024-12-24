@@ -6,7 +6,7 @@ const Directions = {
   Horizontal: "horizontal"
 }
 
-const Stack = ({ horizontal, gap, block, children, center, style, className, ...props }) => (
+const Stack = ({ horizontal, gap = 10, block, children, center, style, className, ...props }) => (
   <div
     className={classNames([
       styles.stack,
@@ -23,9 +23,5 @@ const Stack = ({ horizontal, gap, block, children, center, style, className, ...
 )
 
 Stack.Directions = Directions;
-
-Stack.defaultProps = {
-  gap: 10
-}
 
 export default Stack;

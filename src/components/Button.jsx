@@ -1,7 +1,27 @@
 import { classNames } from 'lib/util';
 import styles from 'styles/Button.module.css';
 
-const Button = ({ children, size, block, color, ghost, inputButton, ...props }) => (
+const Colors = {
+  White: styles.white,
+  Blue: styles.blue,
+  Red: styles.red,
+  Green: styles.green
+}
+
+const Sizes = {
+  Default: styles.default,
+  Large: styles.large
+}
+
+const Button = ({
+  children,
+  size = Sizes.Default,
+  block,
+  color = Colors.Blue,
+  ghost,
+  inputButton,
+  ...props
+}) => (
   <button
     className={classNames([
       styles.button,
@@ -17,21 +37,7 @@ const Button = ({ children, size, block, color, ghost, inputButton, ...props }) 
   </button>
 )
 
-Button.Colors = {
-  White: styles.white,
-  Blue: styles.blue,
-  Red: styles.red,
-  Green: styles.green
-}
-
-Button.Sizes = {
-  Default: styles.default,
-  Large: styles.large
-}
-
-Button.defaultProps = {
-  color: Button.Colors.Blue,
-  size: Button.Sizes.Default
-}
+Button.Colors = Colors;
+Button.Sizes = Sizes;
 
 export default Button;

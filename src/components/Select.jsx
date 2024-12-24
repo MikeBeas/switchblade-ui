@@ -1,7 +1,22 @@
 import { classNames } from 'lib/util';
 import styles from 'styles/Select.module.css';
 
-const Select = ({ onChange, size, block, returnObject, options, value, viewOnly, disabled, ...props }) => (
+const Sizes = {
+  Default: styles.default,
+  Large: styles.large
+}
+
+const Select = ({
+  onChange,
+  size = Sizes.Default,
+  block,
+  returnObject,
+  options = [],
+  value,
+  viewOnly,
+  disabled,
+  ...props
+}) => (
   <select
     disabled={disabled || viewOnly}
     value={returnObject ? JSON.stringify(value) : value}
@@ -17,14 +32,6 @@ const Select = ({ onChange, size, block, returnObject, options, value, viewOnly,
   </select>
 )
 
-Select.Sizes = {
-  Default: styles.default,
-  Large: styles.large
-}
-
-Select.defaultProps = {
-  options: [],
-  size: Select.Sizes.Default
-}
+Select.Sizes = Sizes;
 
 export default Select;

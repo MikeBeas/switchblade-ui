@@ -1,7 +1,7 @@
 import Stack from 'components/Stack';
 import { isMobile } from 'lib/config';
 
-const LabeledInput = ({ label, children, block, style }) => (
+const LabeledInput = ({ label, children, block, style = {} }) => (
   <Stack
     gap={5}
     style={{
@@ -15,9 +15,5 @@ const LabeledInput = ({ label, children, block, style }) => (
     {children}
   </Stack>
 )
-
-LabeledInput.defaultProps = {
-  style: {}
-}
 
 export default LabeledInput;

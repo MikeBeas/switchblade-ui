@@ -2,7 +2,23 @@ import { classNames } from 'lib/util';
 import animations from 'styles/animations.module.css';
 import styles from 'styles/Alert.module.css';
 
-const Alert = ({ title, content, color, animated, centered, animation, ...props }) => (
+const Colors = {
+  White: "white",
+  Blue: "blue",
+  Red: "red",
+  Yellow: "yellow",
+  Green: "green"
+}
+
+const Alert = ({
+  title,
+  content,
+  color = Colors.Blue,
+  animated = true,
+  centered,
+  animation = animations.pullIn,
+  ...props
+}) => (
   <div
     className={classNames([
       styles.alert,
@@ -17,18 +33,6 @@ const Alert = ({ title, content, color, animated, centered, animation, ...props 
   </div>
 )
 
-Alert.Colors = {
-  White: "white",
-  Blue: "blue",
-  Red: "red",
-  Yellow: "yellow",
-  Green: "green"
-}
-
-Alert.defaultProps = {
-  color: Alert.Colors.Blue,
-  animated: true,
-  animation: animations.pullIn
-}
+Alert.Colors = Colors;
 
 export default Alert;

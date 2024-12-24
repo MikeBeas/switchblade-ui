@@ -5,7 +5,7 @@ import Icon from 'components/Icon';
 
 import styles from 'styles/Collapse.module.css';
 
-const Collapse = ({ title, defaultOpen, children }) => {
+const Collapse = ({ title, defaultOpen = false, children }) => {
   const [open, setOpen] = useState(defaultOpen);
 
   return (
@@ -21,10 +21,6 @@ const Collapse = ({ title, defaultOpen, children }) => {
       )}
     </div>
   )
-}
-
-Collapse.defaultProps = {
-  defaultOpen: false
 }
 
 export default Collapse;

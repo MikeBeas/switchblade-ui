@@ -10,6 +10,9 @@ You can setup the following environment variables to configure your Switchblade 
 
 # Change Log
 
+## v1.1.2 (2024-12-24)
+- Updated dependencies
+
 ## v1.1.1 (2024-05-10)
 - Fixed an issue where pressing the escape key could take you to a different page if no modals or drawers were open
 - Updated dependencies

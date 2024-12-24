@@ -1,4 +1,4 @@
-const Divider = ({ style, size }) => (
+const Divider = ({ style, size = 20 }) => (
   <hr style={{
     width: '100%',
     border: 'none',
@@ -8,9 +8,5 @@ const Divider = ({ style, size }) => (
   }}
   />
 )
-
-Divider.defaultProps = {
-  size: 20
-}
 
 export default Divider;

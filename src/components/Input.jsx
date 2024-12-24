@@ -2,7 +2,12 @@ import Button from 'components/Button';
 import { classNames } from 'lib/util';
 import styles from 'styles/Input.module.css';
 
-const Text = ({ size, block, onChange, value, button, disabled, viewOnly, ...props }) => (
+const Sizes = {
+  Default: styles.default,
+  Large: styles.large
+}
+
+const Text = ({ size = Sizes.Default, block, onChange, value, button, disabled, viewOnly, ...props }) => (
   <>
     <input
       disabled={disabled || viewOnly}
@@ -28,7 +33,7 @@ const Text = ({ size, block, onChange, value, button, disabled, viewOnly, ...pro
   </>
 )
 
-const TextArea = ({ size, block, onChange, value, disabled, viewOnly, ...props }) => (
+const TextArea = ({ size = Sizes.Default, block, onChange, value, disabled, viewOnly, ...props }) => (
   <textarea
     rows={5}
     disabled={disabled || viewOnly}
@@ -50,18 +55,9 @@ const Modes = {
   TextArea
 }
 
-const Input = ({ mode, ...props }) => mode(props);
+const Input = ({ mode = Modes.Text, ...props }) => mode(props);
 
-Input.Sizes = {
-  Default: styles.default,
-  Large: styles.large
-}
-
+Input.Sizes = Sizes;
 Input.Modes = Modes;
-
-Input.defaultProps = {
-  size: Input.Sizes.Default,
-  mode: Input.Modes.Text
-}
 
 export default Input;

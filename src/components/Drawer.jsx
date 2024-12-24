@@ -13,7 +13,19 @@ const Positions = {
   Right: "right"
 }
 
-const Drawer = ({ open, header, children, footer, hide, canClose, showCloseButton, rounded, width, height, position }) => {
+const Drawer = ({
+  open,
+  header,
+  children,
+  footer,
+  hide,
+  canClose = true,
+  showCloseButton = true,
+  rounded = !isMobile,
+  width = 600,
+  height = '100%',
+  position = Positions.Right
+}) => {
   const ESC = "Escape";
 
   const drawerHandleKey = useMemo(() => (e) => { if (e.code === ESC && canClose) hide() }, []);
@@ -86,14 +98,5 @@ const Drawer = ({ open, header, children, footer, hide, canClose, showCloseButto
 }
 
 Drawer.Positions = Positions;
-
-Drawer.defaultProps = {
-  canClose: true,
-  rounded: !isMobile,
-  width: 600,
-  height: '100%',
-  showCloseButton: true,
-  position: Positions.Right
-}
 
 export default Drawer;
